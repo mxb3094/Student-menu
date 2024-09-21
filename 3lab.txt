@@ -1,0 +1,297 @@
+//martin baldazo
+//1002063094
+//spring2024
+//cse1320
+//section 008
+// acc partner
+//Emmanuel Ramirez
+//1002178105
+#include <stdio.h>
+#include <string.h>
+
+struct utastudent
+{
+    char firstname[20];
+    char lastname[20];
+    float score;
+    char nationality[20];
+
+};
+//function to print all elements in struct best time 3 min
+void printstruct(struct utastudent student[],int rows)
+{
+    for(int i=0;i<rows;i++)
+    {
+        printf("%s   %s   %.1f\n", student[i].firstname,student[i].lastname,student[i].score);
+    }
+}
+
+//function to search by first name best time 6 min
+void searchfm(struct utastudent student[],int rows,char name[20])
+{
+    int found=0;
+    for(int i=0;i<rows;i++)
+    {
+        if(strcmp(student[i].firstname,name)==0)
+        {
+            printf("%s   %s   %.1f\n",student[i].firstname,student[i].lastname,student[i].score);
+            found=1;
+        }
+    }
+  
+}
+//function to search by grade best time 5 min
+void searchbygrade(struct utastudent student[],int rows,float grade)
+{
+    for(int i=0;i<rows;i++)
+    {
+        if(grade<=student[i].score)
+        printf("%s   %s   %.1f\n",student[i].firstname,student[i].lastname,student[i].score);
+
+    }
+}
+//function to search by last name best time 4 min
+void searchlm(struct utastudent student[],int rows,char name[20])
+{
+    int found=0;
+    for(int i=0;i<rows;i++)
+    {
+        if(strcmp(student[i].lastname,name)==0)
+        {
+            printf("%s   %s   %.1f\n",student[i].firstname,student[i].lastname,student[i].score);
+           found=1;
+        }
+        
+    }
+    
+}
+//function to print american students only best time 8 min
+void printamericns(struct utastudent student[],int rows)
+{
+    for (int i=0;i<rows;i++)
+    {
+        if(strcmp(student[i].nationality,"American")==0)
+        {
+            printf("%s   %s   %.1f\n",student[i].firstname,student[i].lastname,student[i].score);
+           
+        }
+    }
+}
+// sorts all students by grades best time 4 min
+void bubblesortgrades(struct utastudent student[],int rows)
+{
+   struct utastudent temp;
+    for(int i=0;i<rows-1;i++)
+    {
+        for (int j=0;j<rows-i-1;j++)
+        {
+            if(student[j].score<student[j+1].score)
+            {
+                temp=student[j];
+                student[j]=student[j+1];
+                student[j+1]=temp;
+            }
+        }
+    }
+    for (int i = 0; i < rows; i++)
+    {
+         printf("%s   %s   %.1f\n",student[i].firstname,student[i].lastname,student[i].score);
+
+    }
+    
+}
+//sorts all students by first name best time 9 min
+void bubblesortfn(struct utastudent student[],int rows)
+{
+    struct utastudent temp;
+        for(int i=0;i<rows-1;i++)
+        {
+            for (int j=0;j<rows-i-1;j++)
+            {
+                if(strcmp(student[j].firstname, student[j+1].firstname)>0)
+                {
+                    temp=student[j];
+                    student[j]=student[j+1];
+                    student[j+1]=temp;
+                    
+                }
+
+
+            }
+
+        }
+    for (int i = 0; i < rows; i++)
+        {
+             printf("%s   %s   %.1f\n",student[i].firstname,student[i].lastname,student[i].score);
+
+        }
+
+}
+//sorts all students by last name  best time 7 min
+void bubblesortln(struct utastudent student[],int rows)
+{
+    struct utastudent temp;
+        for(int i=0;i<rows-1;i++)
+        {
+            for (int j=0;j<rows-i-1;j++)
+            {
+                if(strcmp(student[j].lastname, student[j+1].lastname)>0)
+                {
+                    temp=student[j];
+                    student[j]=student[j+1];
+                    student[j+1]=temp;
+                    
+                }
+
+
+            }
+
+        }
+    for (int i = 0; i < rows; i++)
+        {
+             printf("%s   %s   %.1f\n",student[i].firstname,student[i].lastname,student[i].score);
+
+        }
+
+}
+
+//save all the british students info into one file best time 10 min
+void savetofile(struct utastudent student[],int rows, char *british)
+{
+    FILE *file = fopen(british,"w+");
+    if (file == NULL)
+    {
+        printf("Error opening file!\n");
+        return;
+    }
+    for(int i=0;i<rows;i++)
+    {
+        if(strcmp(student[i].nationality, "British")==0)
+        {
+            fprintf(file,"%s   %s   %.1f\n",student[i].firstname,student[i].lastname,student[i].score);
+
+        }
+    }
+    fclose(file);
+
+
+
+
+
+}
+//best time 15 min
+int main()
+{
+    //declare struc elements
+    struct utastudent student[]={
+        {"Henry","Ford",3.9,"American"},
+        {"Isaac","Newton",3.7,"British"},
+        {"Albert","Einstein",4.1,"American"},
+        {"Marie","Curie",4.2,"French"},
+        {"Charles","Darwin",3.7,"British"},
+        {"Nikola","Tesla",3.8,"American"}
+        };
+    int selection,rows;
+    float grade;
+    char fn[20],ln[20];
+
+    rows=sizeof(student)/sizeof(student[0]);
+    //menu selection
+    printf("Select a numeric choice from the given menu:\n");
+    printf("0)  Exit Program.\n");
+    printf("1)  Clear Screen.\n");
+    printf("2)  Print all student records.\n");
+    printf("3)  Search records by first name.\n");
+    printf("4)  Search records by last name.\n");
+    printf("5)  Search records by grades (>=).\n");
+    printf("6)  Print List,total,count, and average score for all American students.\n");
+    printf("7)  Save the records of British stidents in British.txt.\n");
+    printf("8)  Sort all records by First name.\n");
+    printf("9)  Sort all records by Last name.\n");
+    printf("10) Sort all records by scores.\n");
+    printf("Enter a choice.");
+    scanf("%d",&selection);
+    //switch to go into the menu choice
+    switch (selection)
+    {
+    case 0 :
+        return 0;
+        break;
+    case 1:
+      //clear screen
+      break;
+    case 2:
+        //print all records
+        
+        
+            printstruct(student,rows);
+        
+        break;
+    case 3:
+        //search records by fn
+        
+        printf("enter a first name to be searched.\n");
+        scanf("%s",fn);
+        searchfm(student,rows,fn);
+        break;
+    case 4:
+        //search records by ln
+        printf("enter a last name to be searched.");
+        scanf("%s",ln);
+        searchlm(student,rows,ln);
+        break;
+    case 5:
+        //search by grades <=
+        printf("Enter a grade number to search for (<=)\n");
+        scanf("%f",&grade);
+        searchbygrade(student,rows,grade);
+        break;
+    case 6:
+        //print all things asked for americans only
+        printamericns(student,rows);
+        break;
+    case 7:
+        // save everything to a .txt file for british people
+        savetofile(student,rows,"British.txt");
+        break;
+    case 8:
+        // sort by first name(maybe bubble sort)
+        bubblesortfn(student,rows);
+        break;
+    case 9:
+        //sort by last name(maybe bubble sort)
+        bubblesortln(student,rows);
+        break;
+    case 10:
+        //sort by grades(maybe bubble sort)
+            bubblesortgrades(student,rows);
+        break;
+    
+    default:
+        printf("Select a numeric choice from the given menu:\n");
+        printf("0)  Exit Program.\n");
+        printf("1)  Clear Screen.\n");
+        printf("2)  Print all student records.\n");
+        printf("3)  Search records by first name.\n");
+        printf("4)  Search records by last name.\n");
+        printf("5)  Search records by grades (>=).\n");
+        printf("6)  Print List,total,count, and average score for all American students.\n");
+        printf("7)  Save the records of British stidents in British.txt.\n");
+        printf("8)  Sort all records by First name.\n");
+        printf("9)  Sort all records by Last name.\n");
+        printf("10) Sort all records by scores.\n");
+        printf("Enter a choice.");
+        scanf("%d",&selection);
+        break;
+    }
+
+
+
+
+
+
+
+
+return 0;
+
+}
